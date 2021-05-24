@@ -1,25 +1,23 @@
 import  { React,useEffect ,useState } from 'react';
 import "./ListLink.css";
-import { db, fire } from "../../firebase/firebase";
+import { db } from "../../firebase/firebase";
 
 function ListLink() {
 
-    let total = [];
+    const total = [];
     const [link, setLink] = useState([])
-    const [image,setImage] = useState([])
-    
 
-    const fetchElement = () => {
+    // const fetchElement = () => {
         
-        db.collection("Link").get()
-        .then( querySnapchot => {
-            querySnapchot.forEach(docs => {
-                total.push(docs.data())
-            })
-            setLink(total);
-        }).catch(err => {
-            console.log("error db => ",err)
-        })
+        // db.collection("Link").get()
+        // .then( querySnapchot => {
+        //     querySnapchot.forEach(docs => {
+        //         total.push(docs.data())
+        //     })
+        //     setLink(total);
+        // }).catch(err => {
+        //     console.log("error db => ",err)
+        // })
 
         // storage getone image
         // const storage = fire.storage("gs://linkweb-a00cb.appspot.com")
@@ -49,27 +47,34 @@ function ListLink() {
         // .catch(err => {
         //     console.log("err list storage => ",err)
         // })
-    }
+    // }
 
     useEffect(() => {
-        fetchElement();
+        db.collection("Link").get()
+        .then( querySnapchot => {
+            querySnapchot.forEach(docs => {
+                total.push(docs.data())
+            })
+            setLink(total);
+        }).catch(err => {
+            console.log("error db => ",err)
+        })
     },[])
 
     return (
         <>
-        <h2 className="title_list">liste des Liens</h2>
-        <div className="block_link">
-            {
-            link.map((linkItem,index) => (
-                <div key={ "link_" + index } className="block_link_content">
-                    <a className="linkItem"  href={linkItem.lien} target="_blank" >
-                        <img className="image_link" src={linkItem.imageUrl}></img>
-                    </a>
-                    <p>{linkItem.nom}</p>
-                </div>
-            ))}
-        </div>
-        
+            <h2 className="title_list">liste des Liens</h2>
+            <div className="block_link">
+                {
+                link.map((linkItem,index) => (
+                    <div key={ "link_" + index } className="block_link_content">
+                        <a className="linkItem"  href={linkItem.lien} target="_blank" rel="noreferrer">
+                            <img className="image_link" src={linkItem.imageUrl} alt={linkItem.nom}></img>
+                        </a>
+                        <p>{linkItem.nom}</p>
+                    </div>
+                ))}
+            </div>
         </>
     )
 }

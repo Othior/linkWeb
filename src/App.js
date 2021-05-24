@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import ListLink from './components/ListLink/ListLink';
 
