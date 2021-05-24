@@ -3,8 +3,7 @@ import "./ListLink.css";
 import { db } from "../../firebase/firebase";
 
 function ListLink() {
-
-    const total = [];
+    
     const [link, setLink] = useState([])
 
     // const fetchElement = () => {
@@ -50,6 +49,7 @@ function ListLink() {
     // }
 
     useEffect(() => {
+        let total = [];
         db.collection("Link").get()
         .then( querySnapchot => {
             querySnapchot.forEach(docs => {
